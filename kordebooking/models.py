@@ -198,6 +198,9 @@ class Bookable(models.Model):
     class Meta:
         verbose_name = _('Bookable')
 
+    def __str__(self):
+        return self.name
+
     def is_booked(self):
         return self.booking
 
