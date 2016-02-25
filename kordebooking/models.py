@@ -43,6 +43,14 @@ class Booking(models.Model):
         blank=True, null=True,
     )
 
+    bookable = models.ForeignKey(
+        Bookable,
+        verbose_name=_('Bookable'),
+        related_name='booking',
+        blank=True, null=True,
+        on_delete=models.SET_NULL
+    )
+
     gender = models.CharField(
         max_length=10,
         verbose_name=_('Gender'),
@@ -190,10 +198,6 @@ class Bookable(models.Model):
         blank=True, null=True,
     )
 
-    booking = models.ForeignKey(
-        Booking,
-        blank=True, null=True,
-        on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = _('Bookable')
