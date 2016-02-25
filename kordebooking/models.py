@@ -165,10 +165,41 @@ class Booking(models.Model):
 
     class Meta:
         ordering = ['-creation_date']
+        verbose_name = _('Booking')
 
     def __str__(self):
         return '#{} ({})'.format(self.pk,
                                  self.creation_date)
+
+
+class Bookable(models.Model):
+    name = models.CharField(
+        max_length=256,
+        blank=True
+    )
+
+    capacity = models.PositiveIntegerField(
+        default=1,
+        verbose_name=_('Capacity')
+    )
+
+    price = models.DecimalField(
+        max_digits=36,
+        decimal_places=2,
+        verbose_name=_('Price'),
+        blank=True, null=True,
+    )
+
+    booking = models.ForeignKey(
+        Booking,
+        blank=True, null=True,
+        on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = _('Bookable')
+
+    def is_booked(self):
+        return self.booking
 
 
 class BookingItem(models.Model):
@@ -206,6 +237,7 @@ class BookingItem(models.Model):
 
     class Meta:
         ordering = ['-booking__creation_date']
+        verbose_name = _('Booking item')
 
     def __str__(self):
         return '{} ({})'.format(self.booking, self.booked_item)
